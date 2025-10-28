@@ -1,0 +1,11 @@
+### PhpStorm
+.idea
+
+### Composer
+vendor/
+composer.lock
+
+### docker
+.docker/mysql/data/*
+!.docker/mysql/data/.gitkeep
+.docker/php/auth.json

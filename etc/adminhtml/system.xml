@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
+    <system>
+        <section id="prostor_cumdiscount" translate="label" type="text" sortOrder="900" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Prostor Cumulative Discount</label>
+            <tab>sales</tab>
+            <resource>Prostor_CumDiscount::prostor</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>General Settings</label>
+                <field id="enabled" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Discount</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>sales/prostor_cumdiscount/active</config_path>
+                </field>
+                <field id="test_mode" type="select" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Test Mode</label>
+                    <comment>Static Data Will be returned for each request.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>sales/prostor_cumdiscount/test_mode</config_path>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="api_url" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>API Base URL</label>
+                    <config_path>sales/prostor_cumdiscount/api_url</config_path>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="token" translate="label comment" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>API Token</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <config_path>sales/prostor_cumdiscount/token</config_path>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="timeout" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>API Timeout (sec)</label>
+                    <config_path>sales/prostor_cumdiscount/timeout</config_path>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cache_ttl" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cache TTL (minutes)</label>
+                    <config_path>sales/prostor_cumdiscount/cache_ttl</config_path>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="thresholds" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Discount Thresholds</label>
+                    <comment>Define thresholds: spent amount → discount %</comment>
+                    <backend_model>Prostor\CumDiscount\Model\Config\Backend\Thresholds</backend_model>
+                    <frontend_model>Prostor\CumDiscount\Block\Adminhtml\Form\Field\Thresholds</frontend_model>
+                    <config_path>sales/prostor_cumdiscount/thresholds</config_path>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/config.xsd">
+    <default>
+        <sales>
+            <prostor_cumdiscount>
+                <active>0</active>
+                <test_mode>0</test_mode>
+                <api_url>https://api.base.url</api_url>
+                <timeout>500</timeout>
+                <cache_ttl>5</cache_ttl>
+                <thresholds>
+                    <threhold1>
+                        <amount>4000</amount>
+                        <discount>3</discount>
+                    </threhold1>
+                    <threhold2>
+                        <amount>8000</amount>
+                        <discount>5</discount>
+                    </threhold2>
+                </thresholds>
+            </prostor_cumdiscount>
+        </sales>
+    </default>
+</config>

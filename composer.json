@@ -1,0 +1,29 @@
+{
+    "name": "prostor/cum-discount",
+    "description": "Cum Discount for Magento",
+    "keywords": ["discount", "ecommerce", "e-commerce", "sales"],
+    "require": {
+        "php": "~8.4.0",
+        "magento/framework": ">=103.0.8",
+        "magento/module-sales": ">=103.0.8"
+    },
+    "authors": [
+        {
+            "name": "Vsevolod Tarasov",
+            "homepage": "https://github.com/vsevolod-tarasov"
+        }
+    ],
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "MIT"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Prostor\\CumDiscount\\": ""
+        }
+    }
+}
