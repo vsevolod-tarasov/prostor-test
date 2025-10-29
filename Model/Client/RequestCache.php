@@ -48,8 +48,12 @@ class RequestCache
         CacheFrontendPool $cachePool,
         string $cachePoolIdentifier = 'default'
     ) {
+        try {
+            $this->cache = $cachePool->get($cachePoolIdentifier);
+        } catch (\InvalidArgumentException $e) {
+            $this->cache =$cachePool->get('default');
+        }
         $this->serializer = $serializer;
-        $this->cache = $cachePool->get($cachePoolIdentifier);
         $this->encryptor = $encryptor;
         $this->config = $config;
     }

@@ -58,10 +58,19 @@ class CumulativeTotal extends AbstractTotal
     {
         parent::collect($quote, $shippingAssignment, $total);
 
-        if (!$this->config->isEnabled((int)$quote->getStoreId())) {
+        $address = $shippingAssignment->getShipping()->getAddress();
+
+        if ($address->getAddressType() !== 'shipping') {
             return $this;
         }
 
+        if ($address->getData('prostor_cumulative_applied')) {
+            return $this;
+        }
+
+        if (!$this->config->isEnabled((int)$quote->getStoreId())) {
+            return $this;
+        }
         $customerId = (int)$quote->getCustomerId();
         if ($customerId <= 0) {
             return $this;
@@ -103,9 +112,9 @@ class CumulativeTotal extends AbstractTotal
         $total->setTotalAmount($this->getCode(), -$discountAmount);
         $total->setBaseTotalAmount($this->getCode(), -$discountAmount);
         $total->setSubtotalWithDiscount($total->getSubtotalWithDiscount() - $discountAmount);
-        $total->setGrandTotal($total->getGrandTotal() - $discountAmount);
-        $total->setBaseGrandTotal($total->getBaseGrandTotal() - $discountAmount);
         $total->setData('prostor_cumulative_discount_amount', $discountAmount);
+        $address = $shippingAssignment->getShipping()->getAddress();
+        $address->setData('prostor_cumulative_applied', true);
         return $this;
     }
 
@@ -130,6 +139,12 @@ class CumulativeTotal extends AbstractTotal
      */
     private function itemHasDiscount(CartItemInterface $item): bool
     {
+        if ($item->getProduct()->getPromoExcluded()) {
+            return true;
+        }
+        return false;
+        //TODO: if condition is not attribute based but against applied catalog price rules the next logic
+        // should take place
         if ($item->getHasChildren() && $item->getChildren()) {
             foreach ($item->getChildren() as $child) {
                 if ($this->itemHasDiscount($child)) {
