@@ -55,6 +55,13 @@ Admin → Stores → Configuration → Sales → Prostor Cumulative Discount
 | Discount Thresholds      | `sales/prostor_cumdiscount/thresholds`          | Mapping of spent amount → discount percentage |
 | Enable Debug             | `sales/prostor_cumdiscount/debug`               | Enables detailed API request/response logging |
 
+If **Test Mode** is enabled, static test data will be returned for each customer.
+
+The returned static data is: `'spent_amount' => 5000`
+
+This value is hardcoded and can be found in `\Prostor\CumDiscount\Client\Command\GetCustomerLoyaltyCumulative`.
+
+To ensure the validity of discount application, **configure the Discount Thresholds accordingly** (e.g., set a threshold below 5000 to see a discount applied).
 
 ## Redis Integration (Optional)
 
@@ -88,6 +95,45 @@ Ensure the chosen Redis database index does not conflict with other applications
 
 If your environment already configures Redis differently, adapt the snippet accordingly.
 
+## 🛑 Excluding Products from Discount Calculations
+
+To exclude a specific product from all cumulative discount calculations:
+
+1.  Go to the **Product Edit Page** in the Magento Admin.
+2.  Navigate to the **General** section (or the relevant attribute set group).
+3.  Set the **Exclude from Promotions** attribute to **Yes**.
+4.  **Save** the product.
+
+After saving the product, run the following commands to ensure the changes are reflected immediately:
+
+```bash
+bin/magento indexer:reindex
+php bin/magento cache:clean
+```
+
+## API Logging
+
+API logs are saved to:
+/var/log/prostor_cumdiscount.log
+
+### XML Configuration
+
+The logging configuration is defined in `di.xml`:
+
+```xml
+<type name="Prostor\CumDiscount\Model\Logger\Handler\Warning">
+    <arguments>
+        <argument name="fileName" xsi:type="string">/var/log/prostor_cumdiscount.log</argument>
+    </arguments>
+</type>
+```
+###Notes
+
+If Test Mode is enabled and Debug is enabled, the log file will be populated with API request and response details.
+
+This helps in monitoring API interactions during testing or troubleshooting.
+
+    
 ## Running Tests
 
 To run tests for the extension, use the following command:
@@ -95,8 +141,6 @@ To run tests for the extension, use the following command:
 ```bash
 ./vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Prostor/CumDiscount/Test/Unit
 ```
-
-
 
 To run test for extension use
 
