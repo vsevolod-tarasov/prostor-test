@@ -20,7 +20,6 @@ class Thresholds extends Serialized
         $value = $this->getValue();
         if (is_array($value)) {
             unset($value['__empty']);
-
             if (empty($value)) {
                 throw new LocalizedException(
                     __('At least one threshold value is required')

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Prostor\CumDiscount\Api;
 
-/**
- * Interface ConfigInterface
- */
 interface ConfigInterface
 {
     /**
@@ -14,6 +11,12 @@ interface ConfigInterface
      * @return bool
      */
     public function isEnabled(?int $storeId = null): bool;
+
+    /**
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isDebug(?int $storeId = null): bool;
 
     /**
      * @param int|null $storeId
